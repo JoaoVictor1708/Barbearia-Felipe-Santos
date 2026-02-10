@@ -1,0 +1,45 @@
+@media (width<390px) {
+    header{
+        h1{
+            font-size: 2rem;
+        }
+        p{
+            font-size: 1.4rem;
+            text-align: center;
+        }
+    }
+    
+}
+
+@media (width>550px) {
+    .location{
+        height: 40rem;
+    }
+    .hairCuts{
+        .hairCutsCards{
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+}
+
+@media (width>700px) {
+    .location{
+        height: 45rem;
+    }
+    .hairCuts{
+        .hairCutsCards{
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+}
+
+@media (width>850px) {
+    .location{
+        height: 50rem;
+    }
+    .hairCuts{
+        .hairCutsCards{
+            grid-template-columns: repeat(5, 1fr);
+        }
+    }
+}
