@@ -12,7 +12,7 @@
 }
 
 @media (width>550px) {
-    .location{
+    .slide{
         height: 40rem;
     }
     .hairCuts{
@@ -23,7 +23,7 @@
 }
 
 @media (width>700px) {
-    .location{
+    .slide{
         height: 45rem;
     }
     .hairCuts{
@@ -34,7 +34,7 @@
 }
 
 @media (width>850px) {
-    .location{
+    .slide{
         height: 50rem;
     }
     .hairCuts{
