@@ -1,5 +1,6 @@
 // Slider functionality with radio buttons
 const radioButtons = document.querySelectorAll('.slider-radio');
+const slidesContainer = document.querySelector('.slides-container');
 
 // Optional: Auto-rotate slides every 5 seconds
 let currentSlide = 1;
@@ -9,6 +10,56 @@ setInterval(() => {
     document.getElementById(`slide${nextSlide}`).checked = true;
     currentSlide = nextSlide;
 }, 15000);
+
+// Drag-to-navigate for slides container
+let isDown = false;
+let startX;
+let dragThreshold = 50; // minimum drag distance to trigger slide change
+
+slidesContainer.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return; // left button only
+    isDown = true;
+    slidesContainer.classList.add('dragging');
+    startX = e.pageX;
+    document.body.style.userSelect = 'none';
+    e.preventDefault();
+});
+
+slidesContainer.addEventListener('mouseleave', () => {
+    isDown = false;
+    slidesContainer.classList.remove('dragging');
+});
+
+slidesContainer.addEventListener('mouseup', (e) => {
+    if (!isDown) return;
+    isDown = false;
+    slidesContainer.classList.remove('dragging');
+    
+    const endX = e.pageX;
+    const dragDistance = startX - endX;
+    
+    // Drag right (negative distance) = previous slide
+    // Drag left (positive distance) = next slide
+    if (Math.abs(dragDistance) > dragThreshold) {
+        if (dragDistance > 0) {
+            // Dragged left, show next slide
+            const nextSlide = currentSlide === 3 ? 1 : currentSlide + 1;
+            document.getElementById(`slide${nextSlide}`).checked = true;
+            currentSlide = nextSlide;
+        } else {
+            // Dragged right, show previous slide
+            const prevSlide = currentSlide === 1 ? 3 : currentSlide - 1;
+            document.getElementById(`slide${prevSlide}`).checked = true;
+            currentSlide = prevSlide;
+        }
+    }
+});
+
+['mouseup', 'mouseleave'].forEach(evt => {
+    slidesContainer.addEventListener(evt, () => {
+        document.body.style.userSelect = '';
+    });
+});
 // Card Modal Functionality
 // Card Modal Functionality
 const cards = Array.from(document.querySelectorAll('.card'));
@@ -23,6 +74,8 @@ let currentIndex = 0;
 function openModal(index){
     const img = cards[index].querySelector('img');
     modalImage.src = img.src;
+    modalImage.style.width = "50rem"
+    modalImage.style.height = "50rem"
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -94,8 +147,8 @@ scrollContainers.forEach(container => {
         if(!isDown) return;
         e.preventDefault();
         const x = e.pageX - container.offsetLeft;
-        // softer drag multiplier for smoother feeling (lighter)
-        const walk = (x - startX) * 0.5;
+        // drag multiplier for easier dragging
+        const walk = (x - startX) * 1.5;
         container.scrollLeft = scrollLeft - walk;
     });
 
